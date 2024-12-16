@@ -37,11 +37,15 @@ Reinitializing the Map and the heap ensures that this operation is always O(1). 
 
 When a request is processed, the `request_handled` function is called with an ip_address as an argument. Based on this argument, the code checks the Map to see if we have previously encountered that IP address:
 
--   If we haven't done so, we create a new object, store it in the Map, clean up any stale items, and insert the IP as a tuple (address and frequency) into the heap..
--   When we encounter an IP address, we increase its count on the map, ensure that we clean up any stale items, and then check if our heap has reached 100 entries. This limit is crucial because it guarantees that all operations performed on the heap maintain a predictable and constant runtime complexity.
+-   If we haven't done so, we create a new object, store it in the Map, clean up any stale items, and insert the IP as a tuple (address and frequency) into the heap.
+-   When we encounter an IP address, we increase its count on the Map, clean up any stale items, and then check if our heap has reached 100 entries. This limit is crucial because it guarantees that all operations performed on the heap maintain a predictable and constant runtime complexity.
     -   If we have less than 100, we insert the IP into the heap after cleaning stale items.
-    -   If we have 100 items, we need to check the root. Since this is a min-heap, we can be certain that the root will always contain the lowest item among our top 100. If the IP has a count that exceeds the root's count, it qualifies to be included in the top 100. We will remove the root (ensuring we maintain a total of 100 items), clean up any stale entries, and then add the new IP to the top 100 heap.
+    -   If we have 100 items, we need to check the root. Since this is a min-heap, we can be confident that the root will always contain the lowest item among our top 100. If the IP has a count that exceeds the root's count, it qualifies to be included in the top 100. We will remove the root (ensuring we maintain 100 items), clean up any stale entries, and then add the new IP to the top 100 heap.
 
 **Note: Why do we need to clean stales?** - To simplify the code, we use lazy validation of heap elements, allowing for duplicate IP addresses with different counts. When an item becomes stale due to a higher-frequency duplicate in the tree, we address it. Each time we insert, compare sizes, or pop the tree, we ensure the root is fresh, removing it if necessary until we have a valid root.
 
-![Stale nodes](docs/stale-items.png "Stale nodes")
+![Stale nodes](docs/stale-items.png 'Stale nodes')
+
+The main work is done in the `request_handled` function, where we track all IP addresses and the top 100 most common ones. This ensures that the heap contains only these entries when we call the `top100` function, making sorting and cloning efficient since we handle at most one hundred elements. We use a set to eliminate duplicates and then convert it back to an array for the final output to ensure we return unique IP addresses with their correct frequency counts.
+
+Clearing the data structures is as easy as reinitializing the data structures again.
