@@ -49,3 +49,11 @@ When a request is processed, the `request_handled` function is called with an ip
 The main work is done in the `request_handled` function, where we track all IP addresses and the top 100 most common ones. This ensures that the heap contains only these entries when we call the `top100` function, making sorting and cloning efficient since we handle at most one hundred elements. We use a set to eliminate duplicates and then convert it back to an array for the final output to ensure we return unique IP addresses with their correct frequency counts.
 
 Clearing the data structures is as easy as reinitializing the data structures again.
+
+### What other approaches did you decide not to pursue?
+
+At first, I tried to use one data structure (a map) to handle all the IP addresses and the top 100. Still, I quickly realized that querying and sorting all the IPs could become expensive as we start scaling (the challenge does mention this, giving an example of 20 million). Heap as a data structure used to sound intimidating, but it's surprisingly easy to understand and straightforward, so I decided to go with it.
+
+### How would you test this?
+
+Although I conducted some manual tests to verify that the operations function correctly, I would still like to write unit tests for the various functions to ensure they perform as expected. Additionally, creating a small UI proof of concept would allow me to test the browser's memory performance and display the results on the interface.
