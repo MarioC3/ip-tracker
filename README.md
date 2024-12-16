@@ -9,7 +9,7 @@ The language used for this challenge was Typescript.
 This code focuses on 3 operations that help us track incoming IP addresses: `request_handled`, `top100` & `clear`. To make this as efficient as possible, I used 2 different data structures:
 
 -   Hash Map: To track all incoming IP addresses.
--   Heap: A min-heap to track the top 100 most common IP addresses. The secret sauce here is that the code caps the heap to 100, making all operations predictable and ensuring that all operations are O(1). Since Javascript does not have a built-in heap, like other languages like Python and Java, and the focus wasn't to build a heap from scratch, I decided to use an open-source package that enables me to use a min-heap.
+-   Heap: A min-heap to track the top 100 most common IP addresses. The secret sauce here is that the code caps the heap to 100, making all operations predictable and ensuring that all operations are O(1). Since Javascript does not have a built-in heap, like other languages like Python and Java, and the focus wasn't to build a heap from scratch, I decided to use an open-source package that enables me to use a min-heap. You can find the package [here](https://github.com/datastructures-js/heap).
 
 ### What would you do different if you had more time?
 
