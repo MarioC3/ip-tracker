@@ -24,6 +24,7 @@ const clean_stale = () => {
 const request_handled = (ip_adress: string) => {
 	const stored_ip = ips.get(ip_adress)
 
+	// New ip.
 	if (!stored_ip) {
 		const new_ip: Ip = {
 			address: ip_adress,
@@ -35,9 +36,11 @@ const request_handled = (ip_adress: string) => {
 		return
 	}
 
+	// Ip has been recorded
 	stored_ip.count++
 
-	if (top_hundred.size() > 100) {
+	clean_stale()
+	if (top_hundred.size() >= 100) {
 		const [root_address, root_count] = top_hundred.root() as [string, number]
 		if (stored_ip.count > root_count) {
 			top_hundred.extractRoot()
@@ -50,11 +53,41 @@ const request_handled = (ip_adress: string) => {
 	}
 }
 
+const top100 = () => {
+	// Cloned the heap, since sort mutates the heapified array.
+	const sorted = top_hundred.clone().sort()
+	const unique = new Set<string>()
+	// There's a slight chance that the heap will still have stale duplicate values, specially when we still don't have 100 ip addresses, that's why it's necessary to make a final cleanup and validation.
+	for (const [address, count] of sorted) {
+		const currentCount = ips.get(address)?.count
+		if (currentCount !== count) continue
+		unique.add(address)
+	}
+
+	return [...unique]
+}
+
+const clear = () => {
+	ips = new Map()
+	top_hundred = new MinHeap(compare_ip_value)
+}
+
 request_handled('145.87.2.109')
 request_handled('145.87.2.108')
 request_handled('145.87.2.109')
 request_handled('145.87.2.109')
 request_handled('145.87.2.108')
+request_handled('145.87.2.109')
+request_handled('145.87.2.109')
+request_handled('145.87.2.108')
+request_handled('145.87.2.107')
+request_handled('145.87.2.107')
+request_handled('145.87.2.106')
 
 console.log(ips)
-console.log([...top_hundred])
+console.log(top100())
+
+clear()
+
+console.log(ips)
+console.log(top100())
