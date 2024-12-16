@@ -71,23 +71,3 @@ const clear = () => {
 	ips = new Map()
 	top_hundred = new MinHeap(compare_ip_value)
 }
-
-request_handled('145.87.2.109')
-request_handled('145.87.2.108')
-request_handled('145.87.2.109')
-request_handled('145.87.2.109')
-request_handled('145.87.2.108')
-request_handled('145.87.2.109')
-request_handled('145.87.2.109')
-request_handled('145.87.2.108')
-request_handled('145.87.2.107')
-request_handled('145.87.2.107')
-request_handled('145.87.2.106')
-
-console.log(ips)
-console.log(top100())
-
-clear()
-
-console.log(ips)
-console.log(top100())
