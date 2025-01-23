@@ -1,6 +1,6 @@
 # IP Tracker
 
-IP Tracker code challenge solution by Beto Carlos
+Simple and efficient IP tracker. 
 
 ## Description
 
